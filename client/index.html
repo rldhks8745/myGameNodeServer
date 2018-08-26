@@ -8,17 +8,63 @@
             padding: 0; 
             margin: 0; 
         }
+        #canvasFrame {
+            width : 50%;
+            height : 500px;
+            float : left;
+        }
     	canvas {
             background: #eee; 
             display: block; 
-            margin: 50px auto; 
+            margin : 50px auto;
+        }
+        
+        /** 채팅박스 **/
+        #chatFrame {
+            width : 49%;
+            height : 504px;
+            background-color : lightgray;
+            float : left;
+        }
+        #chatFrame #chatBox {
+            width : 100%;
+            height : 470px;
+            overflow-y : auto;
+        }
+        #chatFrame #chatText {
+            width : 90%;
+            height : 30px;
+            background-color : lightgray;
+            float : left;
+        }
+        #chatFrame #chatSend {
+            width : 10%;
+            height : 30px;
+            background-color : lightgray;
+            float : left;
+        }
+        #chatFrame input[ type = text ] {
+            width : 99%;
+            height : 30px;
+        }
+        #chatFrame input[ type = button ] {
+            width : 100%;
+            height : 34px;
+            background-color : lightgray;
         }
     </style>
 </head>
 <body>
-
-<canvas id="myCanvas" width="480" height="320"></canvas>
+    <div id="canvasFrame">
+        <canvas id="myCanvas" width="480" height="320"></canvas>
+    </div>
+    <div id="chatFrame">
+        <div id="chatBox"></div>
+        <div id="chatText"><input type="text"></div>
+        <div id="chatSend"><input type="button" value="전송"></div>
+    </div>
 </body>
 </html>
 
-<script type="text/javascript" src="/client/main.js"></script>
+<!-- <script type="text/javascript" src="/client/main.js"></script> -->
+<script type="text/javascript" src="main.js"></script>
