@@ -50,12 +50,14 @@ var clients = new Map();
 // socket는 개별 클라이언트와 상호작용 객체.
 // io는 전체 클라이언트와으 상호작용 객체이다.
 io.on('connection', function( socket ){
-	// 클라이언트 접속 메세지 날리면
+
+	// login
 	socket.on('login', function( data ){
 
-    socket.name = data;
-    socket.join('mainroom'); // 기본적을 manroom 에 참가
-    clients.set( socket.id, new Char( data ) ); // 소켓id로 key값
+        socket.name = data;
+        socket.join('mainroom'); // 기본적을 manroom 에 참가
+        clients.set( socket.id, new Char( data ) ); // 소켓id로 key값
+        console.log( "login : " + data );
 
 		// 접속된 모든 클라이언트에게 메세지 전송
 		io.emit('login', data);
@@ -73,17 +75,17 @@ io.on('connection', function( socket ){
 	});
 
 	socket.on('update', function( data ){
+        // 클라이언트들이 보내는 자신의 정보 갱신
+        if( clients.has( socket.id ) ){
+            var char = new Char( data.name );
+    		char.prevX = clients.get( socket.id ).x;
+    		char.prevY = clients.get( socket.id ).y;
+    		char.x = data.x;
+    		char.y = data.y;
+    		char.act = data.act;
+    		char.dir = data.dir;
 
-    if( clients.has( socket.id ) ){
-        var char = new Char( data.name );
-		char.prevX = clients.get( socket.id ).x;
-		char.prevY = clients.get( socket.id ).y;
-		char.x = data.x;
-		char.y = data.y;
-		char.act = data.act;
-		char.dir = data.dir;
-
-        clients.set( socket.id, char );
+            clients.set( socket.id, char ); // Map 자료구조기 때문에 기존에 있던 클라이언트 값이 변경된다.
     }
 
 	});
@@ -98,6 +100,7 @@ io.on('connection', function( socket ){
             console.log("user disconnected : " + clients.get( socket.id ).name ); // log
 
             clients.delete( socket.id ); // 서버 메모리에서 관리하는 clients 들에서 삭제
+            console.log( clients.length + "clients left" );
         }
     });
 });

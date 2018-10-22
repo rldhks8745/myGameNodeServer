@@ -23,6 +23,17 @@ var char;  // local 유저
 var users = []; // remote 유저들
 
 window.onload = function(){
+    let canvasFrame = document.getElementById('chatFrame');
+    let canvasW = canvasFrame.offsetWidth;
+    let canvasH = canvasW * 0.75;
+    let canvas = document.getElementById("myCanvas"); // 캔버스 문서객체
+    canvas.width = canvasW;
+    canvas.height = canvasH;
+    $('#myCanvas').css({
+        width : '' + canvasW,
+        height : '' + canvasH
+    });
+
     var $loginText = $('#loginBox input[ type=text ]');
     var $loginButton = $('#loginBox input[ type=button ]');
 
@@ -40,6 +51,7 @@ window.onload = function(){
     */
     function login( name ){
         if( name != "" ){
+            $("#myid").text(name);
             connectToServer( name );
             gameInit();
             $('#loginBox').remove();
@@ -201,8 +213,8 @@ function gameInit(){
       // Draw
       ctx.beginPath();
 
-      if( char.act != undefined ) // ctx.drawImage(image,sourcex,sourcey,sourcewidth,sourceheight,drawx,drawy,drawwidth,drawheight);
-        ctx.drawImage( charImg, 0,0,64,128, char.x,char.y,64,128 );
+      if( char.act != undefined )
+        ctx.drawImage( charImg, 0,0,64,128, char.x,char.y,64,128 ); // ctx.drawImage(image,sourcex,sourcey,sourcewidth,sourceheight,drawx,drawy,drawwidth,drawheight);
 
       for( let i=0; i<users.length; i++ )
       {
@@ -234,4 +246,18 @@ function gameInit(){
   document.addEventListener("keydown", keyDownHandler, false);
   document.addEventListener("keyup", keyUpHandler, false);
   document.addEventListener("mousemove", mouseMoveHandler, false);
+}
+
+window.onresize = function()
+{
+    let canvasFrame = document.getElementById('chatFrame');
+    let canvas = document.getElementById("myCanvas"); // 캔버스 문서객체
+    let canvasW = canvasFrame.offsetWidth;
+    let canvasH = canvasW * 0.75;
+    canvas.width = canvasW;
+    canvas.height = canvasH;
+    $('#myCanvas').css({
+        width : '' + canvasW,
+        height : '' + canvasH
+    });
 }
